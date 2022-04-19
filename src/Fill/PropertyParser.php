@@ -46,7 +46,27 @@ class PropertyParser
         foreach ($waitFillData as $propertyName => $propertyValue){
             $propertyData = $propertiesInfo[$propertyName]??null;
             if($propertyData){
+                if($propertyData->isBuiltin){ //标量直接赋值
+                    $this->setPropertyValue($propertyName,$propertyValue);
+                }else{
+                    if($propertyData->arrayType){ //对象数组
+//                        if(!is_array($propertyValue) && !$propertyData->allowsNull){ //todo
+//                            throw new \TypeError(sprintf("Cannot assign error type to property %s::$%s",$propertyData->arrayType,$propertyName));
+//                        }
+//
+//                       // foreach ()
 
+
+                    }else{ //对象
+                        if(null === $propertyValue){
+                            $this->setPropertyValue($propertyName,$propertyValue);
+                            continue;
+                        }else{
+                             $instance = $this->recursionFill($propertyData->typeName,$propertyValue);//递归填充数据
+                             $this->setPropertyValue($propertyName,$instance);
+                        }
+                    }
+                }
             }
         }
     }
@@ -77,7 +97,7 @@ class PropertyParser
                     $propertyInfo->allowsNull = $reflectionType->allowsNull();
                     $propertyInfo->typeName = $reflectionType->getName();
                     $propertyInfo->arrayType = $attributeParser->getArrayType();
-                    $propertyInfo->isBuiltin = $reflectionType->isBuiltin() && in_array($propertyInfo->arrayType,['','int','string','float','bool','int[]','string[]','float[]','bool[]'],true); //初步判断
+                    $propertyInfo->isBuiltin = $reflectionType->isBuiltin() && in_array($propertyInfo->arrayType,['','int','string','float','bool','int[]','string[]','float[]','bool[]'],true);
                     $parseDoc && $propertyInfo->doc = $attributeParser->getDoc();
 
                     $this->proxyPropertyPoll[$this->proxyObjName][$propertyName] = $propertyInfo;
@@ -134,7 +154,26 @@ class PropertyParser
         throw new DocumentPropertyError($message,ExceptionConstCode::PROPERTY_TYPE_IS_UNKNOWN_TYPE);
     }
 
+    /**
+     * 设置对象的属性值
+     * @param string $property
+     * @param mixed $value
+     * @return void
+     */
+    private function setPropertyValue(string $property, mixed $value){
+        $this->proxyObj->{$property} = $value;
+    }
 
+    /**
+     * 递归fill data
+     * @param $className
+     * @param $data
+     * @return mixed
+     */
+    private function recursionFill($className,$data): mixed
+    {
+            return new $className($data);
+    }
 
 
 }

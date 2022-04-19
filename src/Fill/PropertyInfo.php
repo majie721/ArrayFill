@@ -19,7 +19,7 @@ class PropertyInfo
     /** @var string  */
     public mixed $arrayType;
 
-    /** @var bool 是否标量类型 */
+    /** @var bool 是否标量类型: int,string,bool,float,int[],string[],bool[],float[]*/
     public bool $isBuiltin;
 
     /** @var ?string 文档注释 */
