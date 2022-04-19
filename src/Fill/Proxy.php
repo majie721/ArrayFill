@@ -5,12 +5,10 @@ namespace Mj\Fills\Fill;
 
 class Proxy
 {
-    /**
-     * @var array|object 原始数组
-     */
-    private array|object $_original;
+    /** @var array|object|null  */
+    private array|object|null $_original;
 
-    public function __construct(array|object $data)
+    public function __construct(array|object|null $data=null)
     {
         $this->setOriginalData($data)
             ->validateAction()
@@ -35,10 +33,10 @@ class Proxy
     }
 
     /**
-     * @param array $data
+     * @param array|object|null $data
      * @return $this
      */
-    private function setOriginalData(array $data): self
+    private function setOriginalData(array|object|null $data): self
     {
         $this->_original = $data;
         return $this;
@@ -46,9 +44,9 @@ class Proxy
 
 
     /**
-     * @return array 获取原始数据
+     * @return array|object|null 获取原始数据
      */
-    public function getOriginalData():array{
+    public function getOriginalData():array|object|null{
         return $this->_original;
     }
 
