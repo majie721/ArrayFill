@@ -30,7 +30,8 @@ class PropertyParser
      * @throws DocumentPropertyError
      * @throws \JsonException
      */
-    public function fillData(){
+    public function fillData(): void
+    {
         $originalData = $this->proxyObj->getOriginalData();
         if(null === $originalData){
             return;
@@ -50,17 +51,19 @@ class PropertyParser
                     $this->setPropertyValue($propertyName,$propertyValue);
                 }else{
                     if($propertyData->arrayType){ //对象数组
-//                        if(!is_array($propertyValue) && !$propertyData->allowsNull){ //todo
-//                            throw new \TypeError(sprintf("Cannot assign error type to property %s::$%s",$propertyData->arrayType,$propertyName));
-//                        }
-//
-//                       // foreach ()
+                        if(!is_array($propertyValue) && !$propertyData->allowsNull){
+                            throw new \TypeError(sprintf("Cannot assign error type to property %s::$%s",$propertyData->arrayType,$propertyName));
+                        }
 
+                       $arrayValues = [];
+                       foreach ($propertyValue as $item){
+                           $arrayValues[] = $this->recursionFill($propertyData->arrayType,$item);//递归填充数据
+                       }
+                       $this->setPropertyValue($propertyName,$arrayValues);
 
                     }else{ //对象
                         if(null === $propertyValue){
                             $this->setPropertyValue($propertyName,$propertyValue);
-                            continue;
                         }else{
                              $instance = $this->recursionFill($propertyData->typeName,$propertyValue);//递归填充数据
                              $this->setPropertyValue($propertyName,$instance);
@@ -99,6 +102,7 @@ class PropertyParser
                     $propertyInfo->arrayType = $attributeParser->getArrayType();
                     $propertyInfo->isBuiltin = $reflectionType->isBuiltin() && in_array($propertyInfo->arrayType,['','int','string','float','bool','int[]','string[]','float[]','bool[]'],true);
                     $parseDoc && $propertyInfo->doc = $attributeParser->getDoc();
+                    $propertyInfo->decorators = $attributeParser->getDecorators();
 
                     $this->proxyPropertyPoll[$this->proxyObjName][$propertyName] = $propertyInfo;
                 }

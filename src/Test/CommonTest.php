@@ -27,4 +27,9 @@ Class CommonTest extends TestCase{
 
         var_dump($order);
     }
+
+
+    public function testCallable(){
+        is_callable();
+    }
 }

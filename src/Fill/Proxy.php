@@ -12,7 +12,6 @@ class Proxy
     {
         $this->setOriginalData($data)
             ->validateAction()
-            ->doTranslate()
             ->beforeFillAction()
             ->fillAction()
             ->afterFillAction();
@@ -20,9 +19,7 @@ class Proxy
     }
 
 
-    protected function transform(){
 
-    }
 
     protected function beforeFill(){
 
@@ -55,15 +52,6 @@ class Proxy
         return $this;
     }
 
-    /**
-     * @return Proxy
-     */
-    private function doTranslate(): Proxy
-    {
-        $this->transform();
-        return $this;
-    }
-
 
     /**
      * @return Proxy
@@ -79,7 +67,8 @@ class Proxy
      */
     private function fillAction(): Proxy
     {
-
+        $parser =  new PropertyParser($this);
+        $parser->fillData();
         return $this;
     }
 

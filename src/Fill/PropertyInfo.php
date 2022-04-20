@@ -2,6 +2,8 @@
 
 namespace Mj\Fills\Fill;
 
+use JetBrains\PhpStorm\ArrayShape;
+
 class PropertyInfo
 {
     /** @var bool 是否有默认值 */
@@ -27,4 +29,11 @@ class PropertyInfo
 
     /** @var ?string 枚举值 */
     public ?string $enum;
+
+    /** @var array 装饰器函数 */
+    #[ArrayShape([[
+        'callback'=>'mixed',
+        'args'=>'mixed'
+    ]])]
+    public array $decorators;
 }
