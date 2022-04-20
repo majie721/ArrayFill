@@ -48,7 +48,7 @@ class PropertyParser
             $propertyData = $propertiesInfo[$propertyName]??null;
             if($propertyData){
                 if($propertyData->isBuiltin){ //标量直接赋值
-                    $this->setPropertyValue($propertyName,$propertyValue);
+                    $this->setPropertyValue($propertyName,$propertyValue,$propertyData);
                 }else{
                     if($propertyData->arrayType){ //对象数组
                         if(!is_array($propertyValue) && !$propertyData->allowsNull){
@@ -59,14 +59,14 @@ class PropertyParser
                        foreach ($propertyValue as $item){
                            $arrayValues[] = $this->recursionFill($propertyData->arrayType,$item);//递归填充数据
                        }
-                       $this->setPropertyValue($propertyName,$arrayValues);
+                       $this->setPropertyValue($propertyName,$arrayValues,$propertyData);
 
                     }else{ //对象
                         if(null === $propertyValue){
-                            $this->setPropertyValue($propertyName,$propertyValue);
+                            $this->setPropertyValue($propertyName,$propertyValue,$propertyData);
                         }else{
                              $instance = $this->recursionFill($propertyData->typeName,$propertyValue);//递归填充数据
-                             $this->setPropertyValue($propertyName,$instance);
+                             $this->setPropertyValue($propertyName,$instance,$propertyData);
                         }
                     }
                 }
@@ -164,7 +164,13 @@ class PropertyParser
      * @param mixed $value
      * @return void
      */
-    private function setPropertyValue(string $property, mixed $value){
+    private function setPropertyValue(string $property, mixed $value,PropertyInfo $propertyInfo){
+        if(!empty($propertyInfo->decorators)){
+            foreach ($propertyInfo->decorators as $decorator){
+                $value =  $decorator->call($value);
+            }
+        }
+
         $this->proxyObj->{$property} = $value;
     }
 

@@ -27,12 +27,12 @@ class AttributeParser
             if($attribute->isRepeated()){
                 $list[$name][] = [
                     'name' => $name,
-                    'arguments'=>$attribute->getArguments()
+                    'attribute'=>$attribute,
                 ];
             }else{
                 $list[$name] = [
                     'name' => $name,
-                    'arguments'=>$attribute->getArguments()
+                    'attribute'=>$attribute,
                 ];
             }
 
@@ -48,7 +48,8 @@ class AttributeParser
     public function getArrayType(){
         $data =  $this->attributesData[ArrayShape::class]??'';
         if($data){
-            return $data['arguments'][0][0]??''; //todo 待优化
+            $arguments = $data['attribute']->getArguments();
+            return $arguments[0][0]??''; //todo 待优化
         }
 
         return '';
@@ -61,13 +62,14 @@ class AttributeParser
     public function getDoc(){
         $data =  $this->attributesData[Doc::class]??'';
         if($data){
-            return $data['arguments'][0]; //todo 待优化
+            $arguments = $data['attribute']->getArguments();
+            return $arguments[0]; //todo 待优化
         }
     }
 
     /**
      *
-     * @return void
+     * @return array
      */
     #[ArrayShape([[
         'callback'=>'mixed',
@@ -78,10 +80,7 @@ class AttributeParser
         $data = $this->attributesData[Decorator::class]??[];
         if(!empty($data)){
             foreach ($data as $item){
-                $result[] = [
-                    'callback'=>array_shift($item['arguments']),
-                    'args'=>$item['arguments']
-                ];
+                $result[] = $item['attribute']->newInstance();
             }
         }
 

@@ -11,16 +11,16 @@ class Decorator
     private mixed $args;
 
     /**
-     * @param callable $func 回调函数
-     * @param ...$args 回调函数的参数
+     * @param callable $callback
+     * @param mixed ...$args 回调函数的参数
      */
-    public function __construct(callable $callback,...$args)
+    public function __construct(callable $callback,mixed ...$args)
     {
         $this->callback = $callback;
         $this->args = $args;
     }
 
-    public function call(){
-        return call_user_func($this->callback,...$this->args);
+    public function call($value){
+        return call_user_func($this->callback,$value,...$this->args);
     }
 }

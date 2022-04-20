@@ -9,11 +9,29 @@ use PHPUnit\Framework\TestCase;
 Class PropertyParserTest extends TestCase{
 
     public function testGetProxyPropertyData(){
-        $order = new Order();
+        $order = new Order(['desc'=>"ssaaa12312312000"]);
 
         $PropertyParser = new PropertyParser($order);
 
-        print_r($PropertyParser->parseProxyPropertyData()->proxyPropertyPoll);
+       var_dump($order);
+        $this->assertTrue(true);
+    }
+
+
+    public function testProxyPropertyDataDecorators(){
+        $order = new Order();
+
+        $PropertyParser = new PropertyParser($order);
+        $decorators=  $PropertyParser->parseProxyPropertyData()->proxyPropertyPoll[Order::class]['desc']->decorators;
+
+        $val = 'aaabbbbccc999900000';
+        var_dump($decorators);
+       foreach ($decorators as $decorator){
+           $val =  $decorator->call($val);
+       }
+
+       var_dump($val);
+
         $this->assertTrue(true);
     }
 
