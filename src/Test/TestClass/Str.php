@@ -12,4 +12,7 @@ class Str
     public function startFlg($val,$endFlg ="sss"){
         return $endFlg.$val;
     }
+
+
+
 }

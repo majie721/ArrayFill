@@ -16,25 +16,28 @@ class PropertyParser
     public string $proxyObjName;
 
     /** @var array 解析对象信息 */
-    public  array $proxyPropertyPoll;
+    public static array $proxyPropertyPoll;
 
-    public function __construct(Proxy $proxy)
+    public function __construct(?Proxy $proxy)
     {
-        $this->proxyObj = $proxy;
-        $this->proxyObjName = get_class($proxy);
+        if($proxy){
+            $this->proxyObj = $proxy;
+            $this->proxyObjName = get_class($proxy);
+        }
+
     }
 
 
     /**
-     * @return void
+     * @return self
      * @throws DocumentPropertyError
-     * @throws \JsonException
+     * @throws \JsonException|\ReflectionException
      */
-    public function fillData(): void
+    public function fillData(): self
     {
         $originalData = $this->proxyObj->getOriginalData();
         if(null === $originalData){
-            return;
+            return $this;
         }
 
         if(is_object($originalData)){
@@ -43,7 +46,7 @@ class PropertyParser
             $waitFillData = $originalData;
         }
 
-        $propertiesInfo =  $this->getProxyPropertyData();
+        $propertiesInfo =  $this->getProxyPropertyData($this->proxyObjName);
         foreach ($waitFillData as $propertyName => $propertyValue){
             $propertyData = $propertiesInfo[$propertyName]??null;
             if($propertyData){
@@ -72,18 +75,21 @@ class PropertyParser
                 }
             }
         }
+
+        return $this;
     }
 
     /**
+     * @param string $className
      * @param bool $parseDoc
      * @return $this
-     * @throws DocumentPropertyError
+     * @throws DocumentPropertyError|\ReflectionException
      */
-    public function parseProxyPropertyData(bool $parseDoc=false): self
+    public function parseProxyPropertyData(string $className,bool $parseDoc=false): self
     {
-        $proxyProperty = $this->proxyPropertyPoll[$this->proxyObjName]?? null;
+        $proxyProperty = self::$proxyPropertyPoll[$className]?? null;
         if(null===$proxyProperty){
-            $reflection = new \ReflectionClass($this->proxyObj);
+            $reflection = new \ReflectionClass($className);
             $properties =  $reflection->getProperties();
             foreach ($properties as $property){
                 if($property->isPublic()){
@@ -95,6 +101,7 @@ class PropertyParser
 
                     $propertyInfo = new PropertyInfo();
                     $attributeParser = new AttributeParser($property);
+                    $propertyInfo->name = $propertyName;
                     $propertyInfo->hasDefaultValue = $property->hasDefaultValue();
                     $propertyInfo->defaultValue = $property->getDefaultValue();
                     $propertyInfo->allowsNull = $reflectionType->allowsNull();
@@ -104,7 +111,7 @@ class PropertyParser
                     $parseDoc && $propertyInfo->doc = $attributeParser->getDoc();
                     $propertyInfo->decorators = $attributeParser->getDecorators();
 
-                    $this->proxyPropertyPoll[$this->proxyObjName][$propertyName] = $propertyInfo;
+                    self::$proxyPropertyPoll[$className][$propertyName] = $propertyInfo;
                 }
             }
         }
@@ -116,12 +123,12 @@ class PropertyParser
     /**
      *
      * @return array 对象的属性信息
-     * @throws DocumentPropertyError
+     * @throws DocumentPropertyError|\ReflectionException
      */
     #[ArrayShape(['Key'=>PropertyInfo::class])]
-    public function getProxyPropertyData():array{
-        $this->parseProxyPropertyData();
-        return $this->proxyPropertyPoll[$this->proxyObjName];
+    public function getProxyPropertyData(string $className):array{
+        $this->parseProxyPropertyData($className);
+        return self::$proxyPropertyPoll[$className]??[];
     }
 
 
@@ -149,7 +156,7 @@ class PropertyParser
             throw new DocumentPropertyError($message,ExceptionConstCode::PROPERTY_TYPE_IS_UNION_TYPE);
         }
 
-//        if($property instanceof \ReflectionIntersectionType){
+//        if($property instanceof \ReflectionIntersectionType){ //php8.1
 //            $message = sprintf("The %s property type of the %s object cannot be intersection type.",$propertyName,$this->proxyObjName);
 //            throw new DocumentPropertyError($message,ExceptionConstCode::PROPERTY_TYPE_IS_INTERSECTION_TYPE);
 //        }
@@ -162,9 +169,11 @@ class PropertyParser
      * 设置对象的属性值
      * @param string $property
      * @param mixed $value
+     * @param PropertyInfo $propertyInfo
      * @return void
      */
-    private function setPropertyValue(string $property, mixed $value,PropertyInfo $propertyInfo){
+    private function setPropertyValue(string $property, mixed $value,PropertyInfo $propertyInfo): void
+    {
         if(!empty($propertyInfo->decorators)){
             foreach ($propertyInfo->decorators as $decorator){
                 $value =  $decorator->call($value);

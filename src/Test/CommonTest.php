@@ -2,10 +2,11 @@
 
 namespace Mj\Fills\Test;
 
+use Mj\Fills\Test\TestClass\BaseTest;
 use Mj\Fills\Test\TestClass\Order;
 use PHPUnit\Framework\TestCase;
 
-Class CommonTest extends TestCase{
+Class CommonTest extends BaseTest {
 
 
     public function testA(){

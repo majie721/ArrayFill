@@ -5,10 +5,23 @@ namespace Mj\Fills\Test\TestClass;
 use JetBrains\PhpStorm\ArrayShape;
 use Mj\Fills\Fill\AttributeClass\Decorator;
 use Mj\Fills\Fill\AttributeClass\Doc;
+use Mj\Fills\Fill\AttributeClass\Enum;
 use Mj\Fills\Fill\Proxy;
 
 class Order extends Proxy
 {
+
+    #[Doc('数量')]
+    #[Decorator('pow',2)]
+    #[Decorator('pow',3)]
+    public int $num;
+
+    #[Doc("订单备注")]
+    #[Decorator('substr', 2)]
+    #[Decorator('trim', '0')]
+    #[Decorator([Str::class, 'endFlg'],'&&&')]
+    #[Decorator([Str::class, 'startFlg'])]
+    public string $desc;
 
     #[Doc('订单id')]
     public int $id;
@@ -19,7 +32,8 @@ class Order extends Proxy
     #[Doc('是否退件单')]
     public bool $is_return;
 
-    #[Doc('类型服务')]
+    /** @var array  */
+    #[Enum(enumClass)]
     #[ArrayShape(['string'])]
     public array $services;
 
@@ -36,9 +50,5 @@ class Order extends Proxy
     #[Doc('地址信息')]
     public Address $address;
 
-    #[Doc("订单备注")]
-    #[Decorator('substr', 2)]
-    #[Decorator('trim', '0')]
-    #[Decorator([Str::class, 'endFlg'],'&&&')]
-    public string $desc;
+
 }

@@ -3,10 +3,11 @@
 namespace Mj\Fills\Test;
 
 use Mj\Fills\Fill\PropertyParser;
+use Mj\Fills\Test\TestClass\BaseTest;
 use Mj\Fills\Test\TestClass\Order;
 use PHPUnit\Framework\TestCase;
 
-Class PropertyParserTest extends TestCase{
+Class PropertyParserTest extends BaseTest{
 
     public function testGetProxyPropertyData(){
         $order = new Order(['desc'=>"ssaaa12312312000"]);
@@ -19,19 +20,22 @@ Class PropertyParserTest extends TestCase{
 
 
     public function testProxyPropertyDataDecorators(){
-        $order = new Order();
+        $order = new Order(['desc'=>'aaabbbbccc999900000']);
 
-        $PropertyParser = new PropertyParser($order);
-        $decorators=  $PropertyParser->parseProxyPropertyData()->proxyPropertyPoll[Order::class]['desc']->decorators;
 
-        $val = 'aaabbbbccc999900000';
-        var_dump($decorators);
-       foreach ($decorators as $decorator){
-           $val =  $decorator->call($val);
-       }
+       var_dump($order);
 
-       var_dump($val);
+        $this->assertTrue(true);
+    }
 
+
+    public function testGetPropertiesInfo(){
+        print_r(Order::getPropertiesInfo());
+        $this->assertTrue(true);
+    }
+
+    public function testgetProperties(){
+        print_r(Order::getProperties());
         $this->assertTrue(true);
     }
 
@@ -48,18 +52,21 @@ Class PropertyParserTest extends TestCase{
                     'sku'=>'apple_01',
                     'title'=>'苹果1',
                     'num'=>1,
+                    'created_at'=>'2022-4-15 14:55:34'
                 ],
                 [
                     'id'=>2,
                     'sku'=>'apple_02',
                     'title'=>'苹果2',
                     'num'=>2,
+                    'created_at'=>'2022-4-18 14:55:34'
                 ],
                 [
                     'id'=>3,
                     'sku'=>'apple_03',
                     'title'=>'苹果3',
                     'num'=>3,
+                    'created_at'=>'2022-4-21 14:55:34'
                 ]
             ],
             'status'=>2,
@@ -69,11 +76,13 @@ Class PropertyParserTest extends TestCase{
                 'lastName'=>'ma',
                 'company'=>'哇哈哈',
                 'address_1'=>'龙岗贝尔路',
-            ]
+            ],
+            'desc'=>'ssaaa12312312000',
+            'num'=>2
         ];
 
         $orderObj = new Order($orderData);
-        print_r($orderObj);
+        var_dump($orderObj);
 
         //$this->assertTrue(true);
     }

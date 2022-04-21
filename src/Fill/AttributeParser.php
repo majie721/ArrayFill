@@ -25,14 +25,18 @@ class AttributeParser
         foreach ($attributes as $attribute){
             $name = $attribute->getName();
             if($attribute->isRepeated()){
-                $list[$name][] = [
-                    'name' => $name,
-                    'attribute'=>$attribute,
-                ];
+                if(!isset($list[$name])){
+                    $list[$name] = [
+                        'isRepeated'=>true,
+                        'name' => $name,
+                    ];
+                }
+                 $list[$name]['attribute'][] = $attribute;
             }else{
                 $list[$name] = [
+                    'isRepeated'=>false,
                     'name' => $name,
-                    'attribute'=>$attribute,
+                    'attribute'=>[$attribute],
                 ];
             }
 
@@ -48,7 +52,7 @@ class AttributeParser
     public function getArrayType(){
         $data =  $this->attributesData[ArrayShape::class]??'';
         if($data){
-            $arguments = $data['attribute']->getArguments();
+            $arguments = $data['attribute'][0]->getArguments();
             return $arguments[0][0]??''; //todo 待优化
         }
 
@@ -62,7 +66,7 @@ class AttributeParser
     public function getDoc(){
         $data =  $this->attributesData[Doc::class]??'';
         if($data){
-            $arguments = $data['attribute']->getArguments();
+            $arguments = $data['attribute'][0]->getArguments();
             return $arguments[0]; //todo 待优化
         }
     }
@@ -71,16 +75,13 @@ class AttributeParser
      *
      * @return array
      */
-    #[ArrayShape([[
-        'callback'=>'mixed',
-        'args'=>'mixed'
-    ]])]
+    #[ArrayShape([])]
     public function getDecorators(){
         $result = [];
         $data = $this->attributesData[Decorator::class]??[];
-        if(!empty($data)){
-            foreach ($data as $item){
-                $result[] = $item['attribute']->newInstance();
+        if(!empty($data['attribute'])){
+            foreach ($data['attribute'] as $item){
+                $result[] = $item->newInstance();
             }
         }
 

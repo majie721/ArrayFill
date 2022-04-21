@@ -6,6 +6,9 @@ use JetBrains\PhpStorm\ArrayShape;
 
 class PropertyInfo
 {
+    /** @var string 属性名称 */
+    public string $name;
+
     /** @var bool 是否有默认值 */
     public bool $hasDefaultValue;
 
