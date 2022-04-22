@@ -33,7 +33,6 @@ class Order extends Proxy
     public bool $is_return;
 
     /** @var array  */
-    #[Enum(enumClass)]
     #[ArrayShape(['string'])]
     public array $services;
 

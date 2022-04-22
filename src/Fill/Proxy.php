@@ -4,12 +4,12 @@
 namespace Mj\Fills\Fill;
 
 use JetBrains\PhpStorm\ArrayShape;
-use Mj\Fills\Fill\Traits\ArrayAccessTrait;
+use Mj\Fills\Fill\Traits\PropertyArrayAccessTrait;
 
 class Proxy implements \ArrayAccess
 {
 
-    use ArrayAccessTrait;
+    use PropertyArrayAccessTrait;
 
     /** @var array|object|null  */
     private array|object|null $_original;

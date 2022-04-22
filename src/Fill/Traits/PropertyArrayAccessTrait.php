@@ -2,7 +2,7 @@
 
 namespace Mj\Fills\Fill\Traits;
 
-trait ArrayAccessTrait
+trait PropertyArrayAccessTrait
 {
     public function offsetSet($offset, $value): void
     {
