@@ -27,11 +27,11 @@ class PropertyInfo
     /** @var bool 是否标量类型: int,string,bool,float,int[],string[],bool[],float[]*/
     public bool $isBuiltin;
 
-    /** @var ?string 文档注释 */
-    public ?string $doc;
+    /** @var string 文档注释 */
+    public string $doc = '';
 
-    /** @var ?string 枚举值 */
-    public ?string $enum;
+    /** @var array 枚举值 */
+    public array $enumInfo = [];
 
     /** @var array 装饰器函数 */
     #[ArrayShape([[

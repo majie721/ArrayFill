@@ -11,6 +11,10 @@ use Mj\Fills\Fill\Proxy;
 class Order extends Proxy
 {
 
+    #[Doc('状态')]
+    #[Enum(StatusEnum::class)]
+    public int $status = 1;
+
     #[Doc('数量')]
     #[Decorator('pow',2)]
     #[Decorator('pow',3)]
@@ -39,9 +43,6 @@ class Order extends Proxy
     #[Doc('商品信息')]
     #[ArrayShape([OrderProduct::class])]
     public array $product;
-
-    #[Doc('状态')]
-    public int $status = 1;
 
     #[Doc('状态文本')]
     public string $status_text = '处理中';

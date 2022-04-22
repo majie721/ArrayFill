@@ -3,8 +3,11 @@
 namespace Mj\Fills\Fill;
 
 use JetBrains\PhpStorm\ArrayShape;
+use Mj\Fills\Fill\AttributeClass\ArrayShapeConst;
 use Mj\Fills\Fill\AttributeClass\Decorator;
 use Mj\Fills\Fill\AttributeClass\Doc;
+use Mj\Fills\Fill\AttributeClass\Enum;
+use function PHPUnit\Framework\callback;
 
 class AttributeParser
 {
@@ -86,6 +89,27 @@ class AttributeParser
         }
 
        return $result;
+    }
+
+    /**
+     *
+     * @return array
+     */
+    #[ArrayShape(ArrayShapeConst::enumInfoArrayShape)]
+    public function enumInfo(){
+        $data =  $this->attributesData[Enum::class]??'';
+        if(!$data){
+            return [];
+        }
+
+        $instance = $data['attribute'][0]->getArguments();
+        if(is_callable([$instance[0],'labelData'])){
+            $labelData = call_user_func([$instance[0],'labelData']);
+        }
+        return [
+            'name'=>$instance[0],
+            'labelData'=>$labelData??[]
+        ];
     }
 
 

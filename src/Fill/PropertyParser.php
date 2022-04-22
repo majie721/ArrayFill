@@ -85,7 +85,7 @@ class PropertyParser
      * @return $this
      * @throws DocumentPropertyError|\ReflectionException
      */
-    public function parseProxyPropertyData(string $className,bool $parseDoc=false): self
+    public function parseProxyPropertyData(string $className,bool $parseDoc=false,bool $enumDoc=true): self
     {
         $proxyProperty = self::$proxyPropertyPoll[$className]?? null;
         if(null===$proxyProperty){
@@ -109,6 +109,7 @@ class PropertyParser
                     $propertyInfo->arrayType = $attributeParser->getArrayType();
                     $propertyInfo->isBuiltin = $reflectionType->isBuiltin() && in_array($propertyInfo->arrayType,['','int','string','float','bool','int[]','string[]','float[]','bool[]'],true);
                     $parseDoc && $propertyInfo->doc = $attributeParser->getDoc();
+                    $enumDoc  && $propertyInfo->enumInfo = $attributeParser->enumInfo();
                     $propertyInfo->decorators = $attributeParser->getDecorators();
 
                     self::$proxyPropertyPoll[$className][$propertyName] = $propertyInfo;
