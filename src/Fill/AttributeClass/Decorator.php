@@ -1,9 +1,9 @@
 <?php
 
-namespace Mj\Fills\Fill\AttributeClass;
+namespace Majie\Fills\Fill\AttributeClass;
 
-use Mj\Fills\Fill\Exceptions\DocumentPropertyError;
-use Mj\Fills\Fill\Exceptions\ExceptionConstCode;
+use Majie\Fills\Fill\Exceptions\DocumentPropertyError;
+use Majie\Fills\Fill\Exceptions\ExceptionConstCode;
 use phpDocumentor\Reflection\DocBlock\Tags\Param;
 
 #[\Attribute(\Attribute::IS_REPEATABLE|\Attribute::TARGET_PROPERTY)]

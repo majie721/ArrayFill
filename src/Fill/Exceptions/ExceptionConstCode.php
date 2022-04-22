@@ -1,6 +1,6 @@
 <?php
 
-namespace Mj\Fills\Fill\Exceptions;
+namespace Majie\Fills\Fill\Exceptions;
 
 class ExceptionConstCode
 {

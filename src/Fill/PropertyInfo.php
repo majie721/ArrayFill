@@ -1,6 +1,6 @@
 <?php
 
-namespace Mj\Fills\Fill;
+namespace Majie\Fills\Fill;
 
 use JetBrains\PhpStorm\ArrayShape;
 

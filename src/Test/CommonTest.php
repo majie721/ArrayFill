@@ -1,9 +1,9 @@
 <?php
 
-namespace Mj\Fills\Test;
+namespace Majie\Fills\Test;
 
-use Mj\Fills\Test\TestClass\BaseTest;
-use Mj\Fills\Test\TestClass\Order;
+use Majie\Fills\Test\TestClass\BaseTest;
+use Majie\Fills\Test\TestClass\Order;
 use PHPUnit\Framework\TestCase;
 
 Class CommonTest extends BaseTest {

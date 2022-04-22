@@ -1,12 +1,12 @@
 <?php
 
-namespace Mj\Fills\Test\TestClass;
+namespace Majie\Fills\Test\TestClass;
 
 use JetBrains\PhpStorm\ArrayShape;
-use Mj\Fills\Fill\AttributeClass\Decorator;
-use Mj\Fills\Fill\AttributeClass\Doc;
-use Mj\Fills\Fill\AttributeClass\Enum;
-use Mj\Fills\Fill\Proxy;
+use Majie\Fills\Fill\AttributeClass\Decorator;
+use Majie\Fills\Fill\AttributeClass\Doc;
+use Majie\Fills\Fill\AttributeClass\Enum;
+use Majie\Fills\Fill\Proxy;
 
 class Order extends Proxy
 {

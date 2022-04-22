@@ -1,8 +1,8 @@
 <?php
 
-namespace Mj\Fills\Test\TestClass;
+namespace Majie\Fills\Test\TestClass;
 
-use Mj\Fills\Fill\Proxy;
+use Majie\Fills\Fill\Proxy;
 
 class Address  extends Proxy
 {

@@ -1,15 +1,15 @@
 {
-    "name": "mj/fills",
+    "name": "majie/fills",
     "description": "array fill to object",
     "type": "library",
     "autoload": {
         "psr-4": {
-            "Mj\\Fills\\": "src/"
+            "Majie\\Fills\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Mj\\Fills\\": "src/"
+            "Majie\\Fills\\": "src/"
         }
     },
     "authors": [

@@ -1,10 +1,10 @@
 <?php
 
-namespace Mj\Fills\Fill;
+namespace Majie\Fills\Fill;
 
 use JetBrains\PhpStorm\ArrayShape;
-use Mj\Fills\Fill\Exceptions\DocumentPropertyError;
-use Mj\Fills\Fill\Exceptions\ExceptionConstCode;
+use Majie\Fills\Fill\Exceptions\DocumentPropertyError;
+use Majie\Fills\Fill\Exceptions\ExceptionConstCode;
 
 class PropertyParser
 {

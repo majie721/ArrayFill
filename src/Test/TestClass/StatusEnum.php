@@ -1,11 +1,11 @@
 <?php
 
-namespace Mj\Fills\Test\TestClass;
+namespace Majie\Fills\Test\TestClass;
 
 
-use Mj\Fills\Fill\Interface\BaseEnum;
-use Mj\Fills\Fill\Traits\EnumArrayAccessTrait;
-use Mj\Fills\Fill\Traits\EnumTrait;
+use Majie\Fills\Fill\Interface\BaseEnum;
+use Majie\Fills\Fill\Traits\EnumArrayAccessTrait;
+use Majie\Fills\Fill\Traits\EnumTrait;
 
 enum StatusEnum:int implements BaseEnum, \ArrayAccess
 {

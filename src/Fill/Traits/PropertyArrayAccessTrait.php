@@ -1,6 +1,6 @@
 <?php
 
-namespace Mj\Fills\Fill\Traits;
+namespace Majie\Fills\Fill\Traits;
 
 trait PropertyArrayAccessTrait
 {

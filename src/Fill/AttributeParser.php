@@ -1,12 +1,12 @@
 <?php
 
-namespace Mj\Fills\Fill;
+namespace Majie\Fills\Fill;
 
 use JetBrains\PhpStorm\ArrayShape;
-use Mj\Fills\Fill\AttributeClass\ArrayShapeConst;
-use Mj\Fills\Fill\AttributeClass\Decorator;
-use Mj\Fills\Fill\AttributeClass\Doc;
-use Mj\Fills\Fill\AttributeClass\Enum;
+use Majie\Fills\Fill\AttributeClass\ArrayShapeConst;
+use Majie\Fills\Fill\AttributeClass\Decorator;
+use Majie\Fills\Fill\AttributeClass\Doc;
+use Majie\Fills\Fill\AttributeClass\Enum;
 use function PHPUnit\Framework\callback;
 
 class AttributeParser

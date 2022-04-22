@@ -1,6 +1,6 @@
 <?php
 
-namespace Mj\Fills\Fill\AttributeClass;
+namespace Majie\Fills\Fill\AttributeClass;
 
 #[\Attribute]
 class Enum

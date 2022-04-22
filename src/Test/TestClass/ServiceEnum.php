@@ -1,6 +1,6 @@
 <?php
 
-namespace Mj\Fills\Test\TestClass;
+namespace Majie\Fills\Test\TestClass;
 
 class ServiceEnum
 {

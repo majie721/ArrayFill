@@ -1,10 +1,10 @@
 <?php declare(strict_types=1);
 
 
-namespace Mj\Fills\Fill;
+namespace Majie\Fills\Fill;
 
 use JetBrains\PhpStorm\ArrayShape;
-use Mj\Fills\Fill\Traits\PropertyArrayAccessTrait;
+use Majie\Fills\Fill\Traits\PropertyArrayAccessTrait;
 
 class Proxy implements \ArrayAccess
 {

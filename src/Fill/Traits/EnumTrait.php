@@ -1,9 +1,9 @@
 <?php
 
-namespace Mj\Fills\Fill\Traits;
+namespace Majie\Fills\Fill\Traits;
 
 use JetBrains\PhpStorm\ArrayShape;
-use Mj\Fills\Fill\AttributeClass\Doc;
+use Majie\Fills\Fill\AttributeClass\Doc;
 
 trait EnumTrait
 {
