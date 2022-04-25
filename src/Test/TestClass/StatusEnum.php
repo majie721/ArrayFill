@@ -3,11 +3,11 @@
 namespace Majie\Fills\Test\TestClass;
 
 
-use Majie\Fills\Fill\Interface\BaseEnum;
+use Majie\Fills\Fill\Interface\IBaseEnum;
 use Majie\Fills\Fill\Traits\EnumArrayAccessTrait;
 use Majie\Fills\Fill\Traits\EnumTrait;
 
-enum StatusEnum:int implements BaseEnum, \ArrayAccess
+enum StatusEnum:int implements IBaseEnum, \ArrayAccess
 {
     use EnumTrait, EnumArrayAccessTrait;
 

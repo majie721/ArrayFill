@@ -29,13 +29,14 @@ class PropertyParser
 
 
     /**
+     * @param mixed $originalData
      * @return self
      * @throws DocumentPropertyError
-     * @throws \JsonException|\ReflectionException
+     * @throws \JsonException
+     * @throws \ReflectionException
      */
-    public function fillData(): self
+    public function fillData( mixed $originalData): self
     {
-        $originalData = $this->proxyObj->getOriginalData();
         if(null === $originalData){
             return $this;
         }

@@ -5,23 +5,35 @@ namespace Majie\Fills\Fill;
 
 use JetBrains\PhpStorm\ArrayShape;
 use Majie\Fills\Fill\Traits\PropertyArrayAccessTrait;
+use Majie\Fills\Fill\Traits\ValidateTrait;
 
 class Proxy implements \ArrayAccess
 {
 
-    use PropertyArrayAccessTrait;
+    use PropertyArrayAccessTrait,ValidateTrait;
+
+    /** @var bool  */
+    private bool $_setOriginal;
 
     /** @var array|object|null  */
     private array|object|null $_original;
 
+    /**
+     * 表示验证器是否应在第一个规则失败时停止。
+     *
+     * @var bool
+     */
+    protected $stopOnFirstFailure = true;
 
-    public function __construct(array|object|null $data=null)
+
+
+    public function __construct(array|object|null $data=null,bool $setOriginal=false)
     {
-        $this->setOriginalData($data)
-            ->validateAction()
-            ->beforeFillAction()
-            ->fillAction()
-            ->afterFillAction();
+        $this->setOriginalData($data,$setOriginal)
+            ->validateAction($data,$this->stopOnFirstFailure)
+            ->beforeFillAction($data)
+            ->fillAction($data)
+            ->afterFillAction($data);
     }
 
 
@@ -39,9 +51,13 @@ class Proxy implements \ArrayAccess
      * @param array|object|null $data
      * @return $this
      */
-    private function setOriginalData(array|object|null $data): self
+    private function setOriginalData(array|object|null $data,bool $setOriginal): self
     {
-        $this->_original = $data;
+        $this->_setOriginal = $setOriginal;
+        if($setOriginal){
+            $this->_original = $data;
+        }
+
         return $this;
     }
 
@@ -54,9 +70,7 @@ class Proxy implements \ArrayAccess
     }
 
 
-    private function validateAction(){
-        return $this;
-    }
+
 
 
     /**
@@ -71,10 +85,10 @@ class Proxy implements \ArrayAccess
     /**
      * @return Proxy
      */
-    private function fillAction(): Proxy
+    private function fillAction($data): Proxy
     {
         $parser =  new PropertyParser($this);
-        $parser->fillData();
+        $parser->fillData($data);
         return $this;
     }
 
